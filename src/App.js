@@ -10,6 +10,7 @@ import { fetchMovie } from "./helpers/axiosHelper";
 const App = () => {
   const [movie, setMovie] = useState({});
   const [movieList, setMovieList] = useState([]);
+  const [category, setCategory] = useState("");
 
   const getMovie = async (search) => {
     const movie = await fetchMovie(search);
@@ -24,10 +25,6 @@ const App = () => {
     console.log(imdbID);
   };
 
-  const handleOnSelect = (cat) => {
-    //if Lazy selected
-    //if all selected
-  };
   const handleOnAddToList = (cat, movie) => {
     const obj = { ...movie, cat };
 
@@ -42,7 +39,9 @@ const App = () => {
       alert("Movie alreay in the List");
     }
   };
-
+  const moviesToDisplay = category
+    ? movieList.filter((item) => item.cat === category)
+    : movieList;
   return (
     <div className="wrapper">
       <Container>
@@ -59,9 +58,9 @@ const App = () => {
         </div>
         <hr />
         <MovieList
-          movieList={movieList}
+          movieList={moviesToDisplay}
           handleOnMovieDelete={handleOnMovieDelete}
-          handleOnSelect={handleOnSelect}
+          setCategory={setCategory}
         />
       </Container>
     </div>
