@@ -8,9 +8,8 @@ import { Title } from "./components/title/Title";
 import { fetchMovie } from "./helpers/axiosHelper";
 
 const App = () => {
-  const [movieList, setMovieList] = useState([]);
   const [movie, setMovie] = useState({});
-  const [movieMainList, setMovieMainLis] = useState([]);
+  const [movieList, setMovieList] = useState([]);
 
   const getMovie = async (search) => {
     const movie = await fetchMovie(search);
@@ -19,39 +18,26 @@ const App = () => {
   };
 
   const handleOnMovieDelete = (imdbID) => {
-    const filteredList = movieMainList.filter((item) => item.imdbID !== imdbID);
+    const filteredList = movieList.filter((item) => item.imdbID !== imdbID);
     setMovieList(filteredList);
-    setMovieMainLis(filteredList);
 
     console.log(imdbID);
   };
 
   const handleOnSelect = (cat) => {
-    let filteredArgs = [];
-    //if happy selected
-    if (cat) {
-      filteredArgs = movieMainList.filter((item) => item.cat === cat);
-    } else {
-      filteredArgs = movieMainList;
-    }
-
-    setMovieList(filteredArgs);
-
     //if Lazy selected
-
     //if all selected
   };
   const handleOnAddToList = (cat, movie) => {
     const obj = { ...movie, cat };
 
     //adding for the first time
-    !movieList.length && setMovieList([obj] && setMovieMainLis([obj]));
+    !movieList.length && setMovieList([obj]);
 
     const isExist = movieList.find((item) => item.imdbID === movie.imdbID);
     if (!isExist) {
       setMovieList([...movieList, obj]);
       setMovie({});
-      setMovieMainLis([...movieList, obj]);
     } else {
       alert("Movie alreay in the List");
     }
